@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Responsive Holiday Header with Fixed Dropdown Background</title>
+  <style>
+    /* CSS Variables */
+    :root {
+      --primary-bg: #F7F7F8;
+      --secondary-bg: #E5E7EB;
+      --accent-teal: #0F766E;
+      --light-teal: #5EEAD4;
+      --text-dark: #1F2A44;
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(90deg, var(--primary-bg), var(--secondary-bg), var(--primary-bg));
+      background-size: 200% 100%;
+      animation: gradientFlow 8s ease infinite;
+      padding: 12px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Title */
+    .title {
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 5;
+      padding: 8px 16px;
+      background: var(--primary-bg);
+      border: 2px solid var(--light-teal);
+      border-radius: 8px;
+    }
+    .title a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+    }
+    .title a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 3px;
+      bottom: -4px;
+      left: 50%;
+      background: var(--accent-teal);
+      transition: var(--transition);
+      transform: translateX(-50%);
+    }
+    .title a:hover::after {
+      width: 80%;
+    }
+    .title a:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow);
+    }
+
+    /* Secondary Navigation */
+    .secondary-nav {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 15px;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+    }
+    .secondary-nav-item {
+      position: relative;
+    }
+    .secondary-nav-item a {
+      color: var(--text-dark);
+      font-size: 13px;
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 12px;
+      transition: var(--transition);
+      display: block;
+    }
+    .secondary-nav-item a:hover {
+      background: rgba(15, 118, 110, 0.1); /* Subtle teal hover */
+      transform: scale(1.05);
+      box-shadow: var(--shadow);
+    }
+    .secondary-nav-item a.active {
+      background: rgba(15, 118, 110, 0.2);
+      box-shadow: var(--shadow);
+    }
+    .secondary-dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--primary-bg);
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      min-width: 160px;
+      z-index: 2;
+      transform: translateY(-8px);
+      opacity: 0;
+      transition: var(--transition);
+      border: 1px solid var(--light-teal);
+    }
+    .secondary-nav-item:hover .secondary-dropdown,
+    .secondary-nav-item:focus-within .secondary-dropdown {
+      display: block;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .secondary-dropdown a {
+      display: block;
+      padding: 8px 12px;
+      color: var(--text-dark);
+      font-size: 12px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .secondary-dropdown a:hover,
+    .secondary-dropdown a:focus {
+      background: rgba(15, 118, 110, 0.1);
+      box-shadow: var(--shadow);
+    }
+
+    /* Main Navigation */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    .nav-item {
+      position: relative;
+    }
+    .nav-item a {
+      color: var(--text-dark);
+      font-size: 14px;
+      text-decoration: none;
+      padding: 8px 10px;
+      border-radius: 12px;
+      transition: var(--transition);
+      position: relative;
+      z-index: 3;
+    }
+    .nav-item a.active {
+      background: rgba(15, 118, 110, 0.2);
+      transform: scale(1.05);
+      box-shadow: var(--shadow);
+    }
+    .nav-item a:hover {
+      background: rgba(15, 118, 110, 0.1);
+      transform: scale(1.1);
+      box-shadow: var(--shadow);
+    }
+    .suggested-countries a:hover {
+      box-shadow: 0 0 8px rgba(15, 118, 110, 0.3);
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--primary-bg);
+      border-radius: 6px;
+      box-shadow: var(--shadow);
+      min-width: 180px;
+      z-index: 3;
+      transform: translateY(-8px);
+      opacity: 0;
+      transition: var(--transition);
+      border: 1px solid var(--light-teal);
+    }
+    .nav-item:hover .dropdown,
+    .nav-item:focus-within .dropdown {
+      display: block;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .dropdown a {
+      display: block;
+      padding: 8px 12px;
+      color: var(--text-dark);
+      font-size: 13px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .dropdown a:hover,
+    .dropdown a:focus {
+      background: rgba(15, 118, 110, 0.1);
+      box-shadow: var(--shadow);
+    }
+
+    /* Search Bar */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .search-bar input {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 20px 0 0 20px;
+      width: 180px;
+      background: #fff;
+      outline: none;
+      font-size: 14px;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    .search-bar input:focus {
+      width: 200px;
+      box-shadow: 0 0 6px rgba(15, 118, 110, 0.3);
+    }
+    .search-bar button {
+      padding: 8px 12px;
+      border: none;
+      background: var(--accent-teal);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 0 20px 20px 0;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    .search-bar button:hover {
+      background: var(--light-teal);
+      transform: scale(1.05);
+    }
+    .search-bar::after {
+      content: '🔍';
+      position: absolute;
+      right: -20px;
+      font-size: 16px;
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      width: 24px;
+      height: 18px;
+      position: relative;
+      cursor: pointer;
+      background: none;
+      border: none;
+      z-index: 4;
+      transition: var(--transition);
+    }
+    .hamburger span,
+    .hamburger::before,
+    .hamburger::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 3px;
+      background: var(--text-dark);
+      left: 0;
+      transition: var(--transition);
+      transform-origin: center;
+    }
+    .hamburger::before {
+      top: 0;
+    }
+    .hamburger span {
+      top: 7.5px;
+    }
+    .hamburger::after {
+      bottom: 0;
+    }
+    #nav-toggle:checked + .hamburger::before {
+      transform: rotate(45deg) translate(5px, 5px);
+      background: var(--accent-teal);
+    }
+    #nav-toggle:checked + .hamburger span {
+      opacity: 0;
+    }
+    #nav-toggle:checked + .hamburger::after {
+      transform: rotate(-45deg) translate(5px, -5px);
+      background: var(--accent-teal);
+    }
+    #nav-toggle {
+      display: none;
+    }
+    #nav-toggle:checked ~ .secondary-nav,
+    #nav-toggle:checked ~ nav {
+      display: flex;
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn {
+      from { transform: translateY(-8px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Media Queries */
+    @media (max-width: 1024px) {
+      .title { font-size: 28px; padding: 6px 14px; }
+      .secondary-nav-item a { font-size: 12px; padding: 5px 10px; }
+      .nav-item a { font-size: 13px; padding: 6px 8px; }
+      .search-bar input { width: 150px; }
+      .search-bar input:focus { width: 170px; }
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 10px 15px; }
+      .hamburger {
+        display: block;
+        position: absolute;
+        top: 12px;
+        right: 15px;
+      }
+      .title { font-size: 26px; padding: 6px 12px; margin-bottom: 10px; }
+      .secondary-nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+        background: var(--primary-bg);
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: var(--shadow);
+      }
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+        background: var(--primary-bg);
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: var(--shadow);
+      }
+      #nav-toggle:checked ~ .secondary-nav,
+      #nav-toggle:checked ~ nav {
+        display: flex;
+      }
+      .secondary-nav-item,
+      .nav-item {
+        width: 100%;
+        text-align: center;
+      }
+      .secondary-nav-item a,
+      .nav-item a {
+        display: block;
+        padding: 10px;
+        font-size: 14px;
+      }
+      .dropdown,
+      .secondary-dropdown {
+        position: static;
+        background: var(--secondary-bg);
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        transform: none;
+        opacity: 1;
+        z-index: 1;
+        border: none;
+      }
+      .secondary-nav-item:hover .secondary-dropdown,
+      .secondary-nav-item:focus-within .secondary-dropdown,
+      .nav-item:hover .dropdown,
+      .nav-item:focus-within .dropdown {
+        display: none;
+      }
+      .secondary-nav-item.active .secondary-dropdown,
+      .nav-item.active .dropdown {
+        display: block;
+      }
+      .search-bar { width: 100%; justify-content: center; }
+      .search-bar input { width: 100%; max-width: 300px; }
+      .search-bar input:focus { width: 100%; max-width: 320px; }
+    }
+
+    @media (max-width: 480px) {
+      .title { font-size: 24px; padding: 5px 10px; }
+      .secondary-nav-item a,
+      .nav-item a { font-size: 13px; }
+      .search-bar input { max-width: 250px; }
+      .search-bar input:focus { max-width: 270px; }
+      .search-bar::after { right: -18px; font-size: 14px; }
+      .hamburger { width: 20px; height: 16px; }
+      .hamburger span { top: 6.5px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="title">
+      <a href="https://www.timeanddate.com">Time & Date</a>
+    </h1>
+    <input type="checkbox" id="nav-toggle" aria-label="Toggle navigation">
+    <label for="nav-toggle" class="hamburger"><span></span></label>
+    <div class="secondary-nav">
+      <div class="secondary-nav-item">
+        <a href="https://www.timeanddate.com" aria-label="Home menu">Home</a>
+        <div class="secondary-dropdown" role="menu">
+          <a href="/tools" role="menuitem">Tools</a>
+          <a href="/services" role="menuitem">Services</a>
+        </div>
+      </div>
+      <div class="secondary-nav-item">
+        <a href="/calendar" aria-label="Calendar menu">Calendar</a>
+        <div class="secondary-dropdown" role="menu">
+          <a href="/calendar/yearly" role="menuitem">Yearly Calendar</a>
+          <a href="/calendar/monthly" role="menuitem">Monthly Calendar</a>
+        </div>
+      </div>
+      <div class="secondary-nav-item">
+        <a href="/holidays/india/2025" class="active" aria-label="Holidays menu">Holidays</a>
+        <div class="secondary-dropdown" role="menu">
+          <a href="/holidays/by-country" role="menuitem">By Country</a>
+          <a href="/holidays/by-year" role="menuitem">By Year</a>
+        </div>
+      </div>
+    </div>
+    <nav>
+      <div class="nav-item">
+        <a href="/news" aria-label="News menu">News</a>
+        <div class="dropdown" role="menu">
+          <a href="/news/time" role="menuitem">Time News</a>
+          <a href="/news/astronomy" role="menuitem">Astronomy News</a>
+          <a href="/news/calendar" role="menuitem">Calendar News</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="/worldclock" aria-label="World Clock menu">World Clock</a>
+        <div class="dropdown" role="menu">
+          <a href="/worldclock/main" role="menuitem">Main World Clock</a>
+          <a href="/worldclock/city" role="menuitem">City Times</a>
+          <a href="/worldclock/personal" role="menuitem">Personal Clock</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="/time" aria-label="Time Zones menu">Time Zones</a>
+        <div class="dropdown" role="menu">
+          <a href="/time/zones" role="menuitem">Current Time Zones</a>
+          <a href="/time/dst" role="menuitem">DST Changes</a>
+          <a href="/time/converter" role="menuitem">Time Converter</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="/calendar" aria-label="Calendar menu">Calendar</a>
+        <div class="dropdown" role="menu">
+          <a href="/calendar/2025" role="menuitem">2025 Calendar</a>
+          <a href="/calendar/monthly" role="menuitem">Monthly Calendar</a>
+          <a href="/calendar/printable" role="menuitem">Printable Calendar</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="/weather" aria-label="Weather menu">Weather</a>
+        <div class="dropdown" role="menu">
+          <a href="/weather/india" role="menuitem">India Weather</a>
+          <a href="/weather/forecast" role="menuitem">Forecast</a>
+          <a href="/weather/climate" role="menuitem">Climate Data</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="/astronomy" aria-label="Sun, Moon & Space menu">Sun, Moon & Space</a>
+        <div class="dropdown" role="menu">
+          <a href="/astronomy/sunrise" role="menuitem">Sunrise/Sunset</a>
+          <a href="/astronomy/moon" role="menuitem">Moon Phases</a>
+          <a href="/astronomy/eclipse" role="menuitem">Eclipses</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="/timers" aria-label="Timers menu">Timers</a>
+        <div class="dropdown" role="menu">
+          <a href="/timers/stopwatch" role="menuitem">Stopwatch</a>
+          <a href="/timers/countdown" role="menuitem">Countdown Timer</a>
+          <a href="/timers/alarm" role="menuitem">Alarm Clock</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="/calculators" aria-label="Calculators menu">Calculators</a>
+        <div class="dropdown" role="menu">
+          <a href="/calculators/date" role="menuitem">Date Calculator</a>
+          <a href="/calculators/time" role="menuitem">Time Calculator</a>
+          <a href="/calculators/age" role="menuitem">Age Calculator</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="/account" aria-label="My Account menu">My Account</a>
+        <div class="dropdown" role="menu">
+          <a href="/account/location" role="menuitem">My Location</a>
+          <a href="/account/units" role="menuitem">My Units</a>
+          <a href="/account/events" role="menuitem">My Events</a>
+          <a href="/account/worldclock" role="menuitem">My World Clock</a>
+          <a href="/account/privacy" role="menuitem">My Privacy</a>
+          <a href="/account/paid-services" role="menuitem">Paid Services</a>
+          <a href="/account/signin" role="menuitem">Sign In</a>
+          <a href="/account/register" role="menuitem">Register</a>
+        </div>
+      </div>
+      <div class="nav-item suggested-countries">
+        <a href="/holidays" aria-label="Suggested Countries menu">Suggested Countries</a>
+        <div class="dropdown" role="menu">
+          <a href="/holidays/india/2025" role="menuitem">India</a>
+          <a href="/holidays/us/2025" role="menuitem">United States</a>
+          <a href="/holidays/uk/2025" role="menuitem">United Kingdom</a>
+          <a href="/holidays/australia/2025" role="menuitem">Australia</a>
+          <a href="/holidays/canada/2025" role="menuitem">Canada</a>
+        </div>
+      </div>
+      <div class="search-bar">
+        <input type="text" id="search-input" placeholder="Find a holiday..." aria-label="Search holidays">
+        <button type="button" onclick="handleSearch()">Search</button>
+      </div>
+    </nav>
+  </header>
+  <script>
+    function handleSearch() {
+      const input = document.getElementById('search-input').value.trim();
+      if (input === '') {
+        alert('Please enter a search term.');
+        return;
+      }
+      const searchUrl = `https://www.timeanddate.com/holidays/india/?query=${encodeURIComponent(input)}`;
+      window.location.href = searchUrl;
+    }
+
+    document.getElementById('search-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        handleSearch();
+      }
+    });
+
+    document.querySelectorAll('.nav-item > a, .secondary-nav-item > a').forEach(item => {
+      item.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          const parent = item.parentElement;
+          const isActive = parent.classList.contains('active');
+          document.querySelectorAll('.nav-item, .secondary-nav-item').forEach(nav => {
+            nav.classList.remove('active');
+          });
+          if (!isActive) {
+            parent.classList.add('active');
+          }
+        }
+      });
+      item.addEventListener('keydown', (e) => {
+        if (window.innerWidth <= 768 && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          const parent = item.parentElement;
+          const isActive = parent.classList.contains('active');
+          document.querySelectorAll('.nav-item, .secondary-nav-item').forEach(nav => {
+            nav.classList.remove('active');
+          });
+          if (!isActive) {
+            parent.classList.add('active');
+          }
+        }
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && !e.target.closest('.nav-item') && !e.target.closest('.secondary-nav-item') && !e.target.closest('.hamburger')) {
+        document.querySelectorAll('.nav-item, .secondary-nav-item').forEach(nav => {
+          nav.classList.remove('active');
+        });
+      }
+    });
+
+    document.querySelectorAll('.dropdown a, .secondary-dropdown a').forEach(item => {
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          window.location.href = item.href;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
