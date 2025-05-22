@@ -6,6 +6,104 @@
   <title>Clean Responsive Holiday Header with Fixed Dropdown Background</title>
   <style>
     /* CSS Variables */
+    /* Add icons to secondary navigation items */
+.secondary-nav-item a[href="https://www.timeanddate.com"]::before {
+  content: '🏠'; /* Home icon */
+}
+.secondary-nav-item a[href="/calendar"]::before {
+  content: '📅'; /* Calendar icon */
+}
+.secondary-nav-item a[href*="/holidays"]::before {
+  content: '🎉'; /* Holidays icon */
+}
+
+/* Add icons to main navigation items */
+.nav-item a[href="/news"]::before {
+  content: '📄'; /* News icon */
+}
+.nav-item a[href="/worldclock"]::before {
+  content: '🌍'; /* World Clock icon */
+}
+.nav-item a[href="/time"]::before {
+  content: '⏳'; /* Time Zones icon */
+}
+.nav-item a[href="/calendar"]::before {
+  content: '📅'; /* Calendar icon */
+}
+.nav-item a[href="/weather"]::before {
+  content: '☀️'; /* Weather icon */
+}
+.nav-item a[href="/astronomy"]::before {
+  content: '🌞'; /* Sun, Moon & Space icon */
+}
+.nav-item a[href="/timers"]::before {
+  content: '⏱️'; /* Timers icon */
+}
+.nav-item a[href="/calculators"]::before {
+  content: '🧮'; /* Calculators icon */
+}
+.nav-item a[href="/account"]::before {
+  content: '👤'; /* My Account icon */
+}
+.nav-item.suggested-countries a::before {
+  content: '🌐'; /* Suggested Countries icon */
+}
+
+/* Style the icons */
+.nav-item a::before,
+.secondary-nav-item a::before {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+/* Add triangles to dropdowns and adjust background */
+.dropdown,
+.secondary-dropdown {
+  position: relative;
+  background: var(--secondary-bg);
+}
+
+.dropdown::before,
+.secondary-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 10px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--secondary-bg);
+  z-index: 1;
+}
+
+/* Enhance focus styles for accessibility */
+.dropdown a:focus,
+.secondary-dropdown a:focus {
+  background: rgba(15, 118, 110, 0.2);
+  box-shadow: var(--shadow);
+  outline: 2px solid var(--accent-teal);
+}
+
+.search-bar input {
+  border: 1px solid transparent; /* Add border for smooth transition */
+}
+
+.search-bar input:focus {
+  border: 1px solid var(--accent-teal);
+  box-shadow: 0 0 6px rgba(15, 118, 110, 0.3);
+}
+
+/* Add checkmarks to active navigation items */
+.nav-item a.active::after,
+.secondary-nav-item a.active::after {
+  content: '✓';
+  margin-left: 5px;
+  font-size: 12px;
+  color: var(--accent-teal);
+}
     :root {
       --primary-bg: #F7F7F8;
       --secondary-bg: #E5E7EB;
@@ -565,36 +663,4 @@
         }
       });
       item.addEventListener('keydown', (e) => {
-        if (window.innerWidth <= 768 && (e.key === 'Enter' || e.key === ' ')) {
-          e.preventDefault();
-          const parent = item.parentElement;
-          const isActive = parent.classList.contains('active');
-          document.querySelectorAll('.nav-item, .secondary-nav-item').forEach(nav => {
-            nav.classList.remove('active');
-          });
-          if (!isActive) {
-            parent.classList.add('active');
-          }
-        }
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768 && !e.target.closest('.nav-item') && !e.target.closest('.secondary-nav-item') && !e.target.closest('.hamburger')) {
-        document.querySelectorAll('.nav-item, .secondary-nav-item').forEach(nav => {
-          nav.classList.remove('active');
-        });
-      }
-    });
-
-    document.querySelectorAll('.dropdown a, .secondary-dropdown a').forEach(item => {
-      item.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          window.location.href = item.href;
-        }
-      });
-    });
-  </script>
-</body>
-</html>
+        if (window
