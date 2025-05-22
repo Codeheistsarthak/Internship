@@ -663,4 +663,36 @@
         }
       });
       item.addEventListener('keydown', (e) => {
-        if (window
+        if (window.innerWidth <= 768 && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          const parent = item.parentElement;
+          const isActive = parent.classList.contains('active');
+          document.querySelectorAll('.nav-item, .secondary-nav-item').forEach(nav => {
+            nav.classList.remove('active');
+          });
+          if (!isActive) {
+            parent.classList.add('active');
+          }
+        }
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 768 && !e.target.closest('.nav-item') && !e.target.closest('.secondary-nav-item') && !e.target.closest('.hamburger')) {
+        document.querySelectorAll('.nav-item, .secondary-nav-item').forEach(nav => {
+          nav.classList.remove('active');
+        });
+      }
+    });
+
+    document.querySelectorAll('.dropdown a, .secondary-dropdown a').forEach(item => {
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          window.location.href = item.href;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
